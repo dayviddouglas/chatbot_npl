@@ -8,6 +8,7 @@ class Chatbot:
         self.master = master
         master.title("Artemis")
         master.geometry("600x500")
+        master.iconbitmap("favicon.ico")
 
         # Configuração da janela
         master.grid_columnconfigure(0, weight=1)
