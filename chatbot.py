@@ -4,6 +4,7 @@ from difflib import SequenceMatcher
 import requests
 from collections import defaultdict
 import csv
+import random
 
 # Carregar o modelo de português
 nlp = spacy.load('pt_core_news_sm')
@@ -38,12 +39,12 @@ class Chatbot:
         self.send_button = ctk.CTkButton(master, text="Enviar", fg_color="blue", command=self.process_input)
         self.send_button.grid(row=2, column=0, padx=20, pady=10)
 
-        # Dados da tabela
-        self.table_data = {
-            'nome': ['Alice', 'Bob', 'Carlos'],
-            'idade': [25, 30, 35],
-            'profissão': ['Engenheira', 'Médico', 'Professor']
-        }
+        # # Dados da tabela
+        # self.table_data = {
+        #     'nome': ['Alice', 'Bob', 'Carlos'],
+        #     'idade': [25, 30, 35],
+        #     'profissão': ['Engenheira', 'Médico', 'Professor']
+        # }
         self.url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrTxRg3S35qTykQKHLfnncdbcNriOynuxA33H3D9jOHyj4kjtHKBdtJ1v8EnD-civ8ovU7sFCRJ2Rj/pub?output=csv"
         self.response = requests.get(self.url)
         self.response.raise_for_status()
@@ -88,18 +89,50 @@ class Chatbot:
                 # Verificar similaridade entre tokens e nome da coluna
                 for token in tokens:
                     similarity = self.similarity(token, column_lemma)
-                    if similarity > 0.8:
+                    if similarity > 0.6:
                         column_data = self.data_dict[column]
                         response = f"Os dados da coluna '{column}' são: {', '.join(map(str, column_data))}."
                         return response
 
         # Respostas simples baseadas em palavras-chave
         if any(greeting in tokens for greeting in ["olá", "oi"]):
-            return "Olá! Em que posso ajudar?"
+            hello = [
+        "Olá! Como posso te ajudar?",
+        "Oi! Tudo bem por aí?",
+        "Saudações! O que você precisa?",
+        "Oiê! Precisa de algo?",
+        "Fala aí! Estou aqui para ajudar."
+            ]
+            return random.choice(hello)
         elif any(farewell in tokens for farewell in ["tchau", "adeus", "até logo"]):
-            return "Até mais! Se precisar de algo, estou aqui."
-        elif "ajuda" in tokens or "socorro" in tokens:
-            return "Claro! Estou aqui para ajudar. O que você precisa?"
+            goodbye = [
+        "Tchau! Até mais!",
+        "Adeus! Foi bom falar com você!",
+        "Até logo! Cuide-se!",
+        "Nos vemos em breve!",
+        "Até mais! Qualquer coisa, estou por aqui.",
+        "Falou! Até a próxima!",
+        "Valeu, tchau!",
+        "Fique bem! Até logo!",
+        "Foi ótimo falar com você, até mais!",
+        "Adeus! Espero te ver em breve!"
+        ]
+            return random.choice(goodbye)
+        
+        elif any(helps in tokens for helps in ["auxílio", "assistência", "amparo"]):
+            support = [
+        "Claro! Estou aqui para ajudar.",
+        "Como posso te auxiliar?",
+        "Conte comigo! O que você precisa?",
+        "Estou aqui para te dar suporte. O que está precisando?",
+        "Com certeza! Me diga como posso ajudar.",
+        "Sem problemas, estou pronto para te apoiar.",
+        "Pode falar, estou aqui para contribuir!",
+        "Diga aí! Como posso colaborar?",
+        "Não se preocupe, vamos resolver isso juntos.",
+        "Pronto para ajudar! É só perguntar."
+        ]
+            return random.choice(support)
         else:
             return "Desculpe, não entendi. Poderia reformular a pergunta?"
 
