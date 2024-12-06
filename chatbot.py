@@ -14,6 +14,8 @@ class Chatbot:
         self.master = master
         master.title("Artemis")
         master.geometry("600x500")
+        master.iconbitmap("favicon.ico")
+
 
         # Configuração da janela
         master.grid_columnconfigure(0, weight=1)
@@ -39,12 +41,6 @@ class Chatbot:
         self.send_button = ctk.CTkButton(master, text="Enviar", fg_color="blue", command=self.process_input)
         self.send_button.grid(row=2, column=0, padx=20, pady=10)
 
-        # # Dados da tabela
-        # self.table_data = {
-        #     'nome': ['Alice', 'Bob', 'Carlos'],
-        #     'idade': [25, 30, 35],
-        #     'profissão': ['Engenheira', 'Médico', 'Professor']
-        # }
         self.url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRrTxRg3S35qTykQKHLfnncdbcNriOynuxA33H3D9jOHyj4kjtHKBdtJ1v8EnD-civ8ovU7sFCRJ2Rj/pub?output=csv"
         self.response = requests.get(self.url)
         self.response.raise_for_status()
@@ -54,6 +50,7 @@ class Chatbot:
             for key, value in row.items():
                 self.data_dict[key].append(value)
         self.data_dict = dict(self.data_dict)
+
 
     def process_input(self, event=None):
         user_input = self.entry.get()
@@ -89,10 +86,30 @@ class Chatbot:
                 # Verificar similaridade entre tokens e nome da coluna
                 for token in tokens:
                     similarity = self.similarity(token, column_lemma)
-                    if similarity > 0.6:
+                    if similarity > 0.8:
                         column_data = self.data_dict[column]
                         response = f"Os dados da coluna '{column}' são: {', '.join(map(str, column_data))}."
-                        return response
+                        return response 
+                            
+        # for row in self.data_dict.values():
+        #     row_lemma = nlp(row)[0].lemma_
+        #     # Verificar se a coluna está nos tokens
+        #     if row_lemma in tokens:
+        #         row_data = self.data_dict[row]
+        #         response = f"Os dados da coluna '{row}' são: {', '.join(map(str, row_data))}."
+        #         return response
+
+        # Percorrer cada linha de dados
+        for i in range(len(next(iter(self.data_dict.values())))):
+            # Obter os dados da linha atual
+            row_data = {key: self.data_dict[key][i] for key in self.data_dict.keys()}
+            
+            for tok in tokens:
+               
+            # Verificar se o nome do usuário está em algum dos valores da linha
+                if any(tok in str(value).lower() for value in row_data.values()):
+                    return f"Dados encontrados: {row_data}"
+            
 
         # Respostas simples baseadas em palavras-chave
         if any(greeting in tokens for greeting in ["olá", "oi"]):
