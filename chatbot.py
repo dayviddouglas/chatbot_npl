@@ -91,14 +91,6 @@ class Chatbot:
                         response = f"Os dados da coluna '{column}' são: {', '.join(map(str, column_data))}."
                         return response 
                             
-        # for row in self.data_dict.values():
-        #     row_lemma = nlp(row)[0].lemma_
-        #     # Verificar se a coluna está nos tokens
-        #     if row_lemma in tokens:
-        #         row_data = self.data_dict[row]
-        #         response = f"Os dados da coluna '{row}' são: {', '.join(map(str, row_data))}."
-        #         return response
-
         # Percorrer cada linha de dados
         for i in range(len(next(iter(self.data_dict.values())))):
             # Obter os dados da linha atual
