@@ -29,7 +29,7 @@ class Chatbot:
         # Área de texto
         self.text_area = ctk.CTkTextbox(master, width=500, height=300, wrap="word")
         self.text_area.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
-        self.text_area.insert(ctk.END, "Olá! Eu sou a Artemis, sua assistente virtual. Como posso te ajudar hoje?\n")
+        self.text_area.insert(ctk.END, "Olá! Eu sou a Artemis, sua assistente virtual. Como posso te ajudar hoje?\n\n")
         self.text_area.configure(state="disabled")
 
         # Campo de entrada
@@ -58,10 +58,10 @@ class Chatbot:
             return
 
         self.text_area.configure(state="normal")
-        self.text_area.insert(ctk.END, "Você: " + user_input + "\n")
+        self.text_area.insert(ctk.END, "Você: " + user_input + "\n\n")
 
         response = self.get_bot_response(user_input)
-        self.text_area.insert(ctk.END, "Artemis: " + response + "\n")
+        self.text_area.insert(ctk.END, "Artemis: " + response + "\n\n")
 
         self.text_area.configure(state="disabled")
 
@@ -75,11 +75,14 @@ class Chatbot:
 
         # Tentar encontrar uma correspondência com as colunas
         for column in self.data_dict.keys():
+           
             # Lematizar o nome da coluna
             column_lemma = nlp(column)[0].lemma_
+        
             # Verificar se a coluna está nos tokens
             if column_lemma in tokens:
                 column_data = self.data_dict[column]
+               
                 response = f"Os dados da coluna '{column}' são: {', '.join(map(str, column_data))}."
                 return response
             else:
@@ -91,17 +94,7 @@ class Chatbot:
                         response = f"Os dados da coluna '{column}' são: {', '.join(map(str, column_data))}."
                         return response 
                             
-        # Percorrer cada linha de dados
-        for i in range(len(next(iter(self.data_dict.values())))):
-            # Obter os dados da linha atual
-            row_data = {key: self.data_dict[key][i] for key in self.data_dict.keys()}
-            
-            for tok in tokens:
-               
-            # Verificar se o nome do usuário está em algum dos valores da linha
-                if any(tok in str(value).lower() for value in row_data.values()):
-                    return f"Dados encontrados: {row_data}"
-            
+        
 
         # Respostas simples baseadas em palavras-chave
         if any(greeting in tokens for greeting in ["olá", "oi"]):
@@ -142,6 +135,7 @@ class Chatbot:
         "Pronto para ajudar! É só perguntar."
         ]
             return random.choice(support)
+    
         else:
             return "Desculpe, não entendi. Poderia reformular a pergunta?"
 
