@@ -4,7 +4,7 @@ Este repositório contém um chatbot desenvolvido utilizando técnicas de Proces
 
 ## Visão Geral
 
-O objetivo deste projeto é criar um chatbot capaz de interagir com usuários de maneira natural e eficiente, utilizando modelos de NLP para entender e responder às perguntas com intuito de auxíliar o usuário na busca de livros. Os dados dos livros tem como fonte: [goodreads-livros](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks) encontrado na plataforma kaggle. No presente momento, o chat está provendo de respostas randômicas a diálogos de boas-vindas e realizando pesquisa por coluna colhidas do dataset.
+O objetivo deste projeto é criar um chatbot capaz de interagir com usuários de maneira natural e eficiente, utilizando modelos de NLP para entender e responder às perguntas com intuito de auxíliar o usuário na busca de livros. Os dados dos livros tem como fonte: [goodreads-livros](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks) encontrado na plataforma kaggle. No presente momento, o chat está provendo de respostas randômicas a diálogos de boas-vindas, despedidas, pedidos de ajuda e realizando pesquisa por coluna colhidas do dataset.
 
 
 ## Requisitos
