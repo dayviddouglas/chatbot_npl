@@ -48,7 +48,7 @@ No terminal, execute o seguinte comando:
 $ pip install -r requirements.txt
 ```
 
-5. Faça o download do modelo nlp dendo do ambiente virtual:
+5. Faça o download do modelo nlp dentro do ambiente virtual:
 
 ```bash 
 $ python -m spacy download pt_core_news_sm
